@@ -12,4 +12,4 @@ async def add_host(host: Host):
     # dns lookup
     # if active then publish **DNSRecordDiscovered**
 
-    return host.json()
+    return host
