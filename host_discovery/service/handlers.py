@@ -1,5 +1,15 @@
-from host_discovery.models.host import Host
+from host_discovery.service.events import HostDiscovered
 
 
-def handle_host_discovered(host: Host):
+def handle_discovered_host(event: HostDiscovered):
     ...
+    # store host
+
+    # lookup dns
+
+    # publish event
+
+
+EVENT_HANDLERS = {
+    HostDiscovered: [handle_discovered_host],
+}
