@@ -1,9 +1,10 @@
+import host_discovery.repos.hosts as hosts_repo
 from host_discovery.service.events import HostDiscovered
 
 
 def handle_discovered_host(event: HostDiscovered):
-    ...
-    # store host
+
+    hosts_repo.store_host(event.host)
 
     # lookup dns
 
