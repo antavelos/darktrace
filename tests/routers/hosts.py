@@ -1,6 +1,6 @@
 import pytest
 from fastapi.testclient import TestClient
-from host_discovery.app import app
+from host_discovery.main import app
 
 URL = '/hosts'
 
