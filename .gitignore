@@ -8,7 +8,7 @@ log/
 .idea/dbnavigator.xml
 .idea/codeStyles/*
 .cache/
-__pycache__/
+*/__pycache__/
 .coverage
 /.pytest_cache
 samples

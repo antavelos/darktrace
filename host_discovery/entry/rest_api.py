@@ -1,5 +1,13 @@
 from fastapi import FastAPI
+
 from host_discovery.routers import hosts
 
-app = FastAPI(title="Host Discovery")
-app.include_router(hosts.router)
+
+def create_app() -> FastAPI:
+    fast_api = FastAPI(title="Host Discovery")
+    fast_api.include_router(hosts.router)
+
+    return fast_api
+
+
+app = create_app()

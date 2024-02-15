@@ -10,6 +10,6 @@ router = APIRouter()
 @router.post("/hosts")
 async def add_host(host: Host):
 
-    bus.handle(HostDiscovered(host=host))
+    bus.handle_event(HostDiscovered(host=host))
 
     return host

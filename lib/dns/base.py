@@ -9,8 +9,8 @@ class RequestHandler:
     def __init__(self,
                  scheme: str,
                  host: str,
-                 auth: tuple,
-                 verify: bool,
+                 auth: tuple = None,
+                 verify: bool = False,
                  handler_maker: Callable = Session
                  ) -> None:
 
