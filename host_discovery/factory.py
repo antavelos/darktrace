@@ -7,23 +7,26 @@ from lib.dns.dns import DNSClient
 
 CONFIG_FILE = resource_filename(__name__, 'config.yml')
 
+_config = None
 _dns_client = None
 _broker_publisher = None
 
 
-def get_config(filename: str) -> dict:
-    with open(filename, "r") as f:
-        config = yaml.safe_load(f)
-        if config is None:
-            config = {}
+def get_config() -> dict:
+    global _config
+    if _config is None:
+        with open(CONFIG_FILE, "r") as f:
+            _config = yaml.safe_load(f)
+            if _config is None:
+                _config = {}
 
-    return config
+    return _config
 
 
 def create_broker_publisher() -> BrokerPublisher:
     global _broker_publisher
     if _broker_publisher is None:
-        config = get_config(CONFIG_FILE)
+        config = get_config()
 
         _broker_publisher = BrokerPublisher.create(config["BROKER"])
 
@@ -33,7 +36,7 @@ def create_broker_publisher() -> BrokerPublisher:
 def create_dns_client() -> DNSClient:
     global _dns_client
     if _dns_client is None:
-        config = get_config(CONFIG_FILE)
+        config = get_config()
 
         _dns_client = DNSClient.create(config["DNS_SERVER"])
 

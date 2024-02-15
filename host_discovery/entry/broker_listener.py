@@ -1,10 +1,10 @@
-from host_discovery.factory import get_config, CONFIG_FILE
+from host_discovery.factory import get_config
 from host_discovery.routers.broker.hosts import add_host
 from lib.broker.pubsub import BrokerSubscriber
 
 
 def create_broker_subscriber() -> BrokerSubscriber:
-    config = get_config(CONFIG_FILE)
+    config = get_config()
 
     broker_subscriber = BrokerSubscriber.create(config["BROKER"])
     broker_subscriber.subscribe('HostDiscovered', add_host)
