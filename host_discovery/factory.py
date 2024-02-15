@@ -1,11 +1,14 @@
 import yaml
 from pkg_resources import resource_filename
 
-from lib.broker.pubsub import PubSub
+from lib.broker.pubsub import BrokerPublisher
 from lib.dns.dns import DNSClient
 
 
 CONFIG_FILE = resource_filename(__name__, 'config.yml')
+
+_dns_client = None
+_broker_publisher = None
 
 
 def get_config(filename: str) -> dict:
@@ -17,18 +20,21 @@ def get_config(filename: str) -> dict:
     return config
 
 
-def create_pubsub() -> PubSub:
+def create_broker_publisher() -> BrokerPublisher:
+    global _broker_publisher
+    if _broker_publisher is None:
+        config = get_config(CONFIG_FILE)
 
-    config = get_config(CONFIG_FILE)
+        _broker_publisher = BrokerPublisher.create(config["BROKER"])
 
-    return PubSub.create(config["BROKER"])
+    return _broker_publisher
 
 
 def create_dns_client() -> DNSClient:
-    config = get_config(CONFIG_FILE)
+    global _dns_client
+    if _dns_client is None:
+        config = get_config(CONFIG_FILE)
 
-    return DNSClient.create(config["DNS_SERVER"])
+        _dns_client = DNSClient.create(config["DNS_SERVER"])
 
-
-dns_client = create_dns_client()
-pubsub = create_pubsub()
+    return _dns_client

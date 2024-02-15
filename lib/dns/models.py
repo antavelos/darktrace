@@ -1,13 +1,13 @@
-from dataclasses import dataclass
 from enum import Enum
+
+from pydantic import BaseModel
 
 
 class DNSRecordStatus(Enum):
     ACTIVE = 'A'
 
 
-@dataclass
-class DNSRecord:
+class DNSRecord(BaseModel):
     hostname: str
     status: DNSRecordStatus
     value: str

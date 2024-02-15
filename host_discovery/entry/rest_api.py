@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from host_discovery.routers import hosts
+from host_discovery.routers.http import hosts
 
 
 def create_app() -> FastAPI:

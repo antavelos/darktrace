@@ -1,25 +1,21 @@
-
-from host_discovery.factory import pubsub
-from host_discovery.models.host import Host
-from host_discovery.service import bus
-from host_discovery.service.events import HostDiscovered
+from host_discovery.factory import get_config, CONFIG_FILE
+from host_discovery.routers.broker.hosts import add_host
+from lib.broker.pubsub import BrokerSubscriber
 
 
-def handle_host_discovered(data: dict) -> None:
-    bus.handle_event(HostDiscovered(Host(**data)))
+def create_broker_subscriber() -> BrokerSubscriber:
+    config = get_config(CONFIG_FILE)
 
+    broker_subscriber = BrokerSubscriber.create(config["BROKER"])
+    broker_subscriber.subscribe('HostDiscovered', add_host)
 
-BROKER_EVENT_HANDLERS = {
-    "HostDiscovered": handle_host_discovered
-}
+    return broker_subscriber
 
 
 def main():
+    broker_subscriber = create_broker_subscriber()
+    broker_subscriber.listen()
 
-    for event in BROKER_EVENT_HANDLERS.keys():
-        pubsub.subscribe(event)
 
-    for message in pubsub.listen():
-        event_handler = BROKER_EVENT_HANDLERS.get(message["channel"])
-        if event_handler:
-            event_handler(message["data"])
+if __name__ == "__main__":
+    main()

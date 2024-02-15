@@ -15,7 +15,7 @@ class DNSClient:
     def create(cls, config: dict) -> Self:
         request_handler = RequestHandler(**config)
 
-        return DNSClient(request_handler)
+        return cls(request_handler)
 
     def lookup(self, hostname: str, status: DNSRecordStatus = DNSRecordStatus.ACTIVE) -> DNSRecord | None:
         """
