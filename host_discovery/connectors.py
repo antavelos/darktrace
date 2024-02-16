@@ -1,28 +1,14 @@
-import yaml
 from pkg_resources import resource_filename
 from tinydb import TinyDB
 
+from host_discovery.config import CONFIG_FILE, get_config
 from lib.broker.pubsub import BrokerPublisher
 from lib.dns.dns import DNSClient
 
 
-CONFIG_FILE = resource_filename(__name__, "config.yml")
-
-_config = None
 _dns_client = None
 _broker_publisher = None
 _db = None
-
-
-def get_config(config_file: str) -> dict:
-    global _config
-    if _config is None:
-        with open(config_file, "r") as f:
-            _config = yaml.safe_load(f)
-            if _config is None:
-                _config = {}
-
-    return _config
 
 
 def get_broker_publisher(config_file: str = None) -> BrokerPublisher:

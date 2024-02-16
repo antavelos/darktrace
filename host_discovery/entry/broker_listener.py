@@ -1,6 +1,6 @@
 from pkg_resources import resource_filename
 
-from host_discovery.factory import get_config
+from host_discovery.config import get_config
 import host_discovery.routers.broker.hosts as host_routers
 from lib.broker.pubsub import BrokerSubscriber
 

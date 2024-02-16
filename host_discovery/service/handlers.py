@@ -1,7 +1,7 @@
 from typing import Type, Callable
 
 from host_discovery.repos.hosts import HostRepo
-from host_discovery.factory import get_dns_client
+from host_discovery.connectors import get_dns_client
 from host_discovery.pubsub import publisher
 from host_discovery.service.events import HostDiscovered, Event
 

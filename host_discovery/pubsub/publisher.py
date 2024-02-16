@@ -1,4 +1,4 @@
-from host_discovery.factory import get_broker_publisher
+from host_discovery.connectors import get_broker_publisher
 from lib.dns.models import DNSRecord
 
 broker_publisher = get_broker_publisher()
