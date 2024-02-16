@@ -5,4 +5,4 @@ broker_publisher = create_broker_publisher()
 
 
 def publish_dns_record(dns_record: DNSRecord):
-    broker_publisher.publish('DNSRecordDiscovered', dns_record.model_dump_json())
+    broker_publisher.publish("DNSRecordDiscovered", dns_record.model_dump_json())

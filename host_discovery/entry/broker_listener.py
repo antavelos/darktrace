@@ -6,7 +6,7 @@ from lib.broker.pubsub import BrokerSubscriber
 
 
 def register_subscriptions(app: BrokerSubscriber):
-    app.subscribe('HostDiscovered', host_routers.add_host)
+    app.subscribe("HostDiscovered", host_routers.add_host)
 
 
 def create_app(config_file: str) -> BrokerSubscriber:
@@ -19,7 +19,7 @@ def create_app(config_file: str) -> BrokerSubscriber:
 
 
 def main():
-    config_file = resource_filename(__name__, '../config.yml')
+    config_file = resource_filename(__name__, "../config.yml")
     subscriber_app = create_app(config_file)
     register_subscriptions(subscriber_app)
 

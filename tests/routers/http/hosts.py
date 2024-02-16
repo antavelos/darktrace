@@ -6,13 +6,13 @@ from host_discovery.entry.rest_api import app
 from host_discovery.repos import STORE
 from lib.dns.dns import DNSClient
 
-URL = '/hosts'
+URL = "/hosts"
 
 client = TestClient(app)
 
 
-@pytest.mark.parametrize('invalid_url, expected_status_code, expected_message', [
-    ('invalid', 404, 'Not Found')
+@pytest.mark.parametrize("invalid_url, expected_status_code, expected_message", [
+    ("invalid", 404, "Not Found")
 ])
 def test_add_host__invalid_url__returns_404(
         invalid_url,
@@ -24,28 +24,28 @@ def test_add_host__invalid_url__returns_404(
     assert response.status_code == expected_status_code
 
     response_json = response.json()
-    assert response_json['detail'] == expected_message
+    assert response_json["detail"] == expected_message
 
 
-@pytest.mark.parametrize('invalid_payload, expected_field_loc, expected_message', [
+@pytest.mark.parametrize("invalid_payload, expected_field_loc, expected_message", [
     (
         {
             "hostname": "www.darktrace.com",
             "source": 1
         },
-        ['body', 'source'],
-        'Input should be a valid string'
+        ["body", "source"],
+        "Input should be a valid string"
     ),
     (
         {
             "hostname": "www.darktrace.com",
             "invalid": "source"
         },
-        ['body', 'source'],
-        'Field required'
+        ["body", "source"],
+        "Field required"
     )
 ])
-@pytest.mark.parametrize('expected_status_code', [422])
+@pytest.mark.parametrize("expected_status_code", [422])
 def test_add_host__invalid_payload__returns_422(
         invalid_payload,
         expected_field_loc,

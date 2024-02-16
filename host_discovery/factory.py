@@ -5,7 +5,7 @@ from lib.broker.pubsub import BrokerPublisher
 from lib.dns.dns import DNSClient
 
 
-CONFIG_FILE = resource_filename(__name__, 'config.yml')
+CONFIG_FILE = resource_filename(__name__, "config.yml")
 
 _config = None
 _dns_client = None

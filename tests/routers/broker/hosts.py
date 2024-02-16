@@ -23,7 +23,7 @@ def create_app(expected_message: dict) -> BrokerSubscriber:
     mock_pubsub.listen = make_listen_method(expected_message)
     mock_pubsub.subscribe = mock.Mock()
 
-    config_file = resource_filename(__name__, '../../test_config.yml')
+    config_file = resource_filename(__name__, "../../test_config.yml")
     app = create_broker_listener_app(config_file)
     app.pubsub = mock_pubsub
 
@@ -32,12 +32,12 @@ def create_app(expected_message: dict) -> BrokerSubscriber:
     return app
 
 
-@pytest.mark.parametrize('irrelevant_message', [
+@pytest.mark.parametrize("irrelevant_message", [
     (
         {"channel": "Irrelevant", "data": {}}
     )
 ])
-@mock.patch('host_discovery.routers.broker.hosts.add_host')
+@mock.patch("host_discovery.routers.broker.hosts.add_host")
 def test_add_host__irrelevant_topic__no_handler_is_called(mock_add_host, irrelevant_message):
     app = create_app(irrelevant_message)
     app.run()
@@ -45,7 +45,7 @@ def test_add_host__irrelevant_topic__no_handler_is_called(mock_add_host, irrelev
     mock_add_host.assert_not_called()
 
 
-@pytest.mark.parametrize('invalid_message', [
+@pytest.mark.parametrize("invalid_message", [
     (
         {
             "channel": "HostDiscovered",
