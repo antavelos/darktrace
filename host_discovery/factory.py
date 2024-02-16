@@ -38,6 +38,6 @@ def create_dns_client() -> DNSClient:
     if _dns_client is None:
         config = get_config(CONFIG_FILE)
 
-        _dns_client = DNSClient.create(config["DNS_SERVER"])
+        _dns_client = DNSClient(config["DNS_SERVER"])
 
     return _dns_client
