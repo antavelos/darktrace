@@ -6,8 +6,6 @@ from host_discovery.service.handlers import SERVICE_EVENT_HANDLERS
 
 _logger = logging.getLogger(__name__)
 
-_bus = None
-
 
 class MessageBus:
 
@@ -21,11 +19,6 @@ class MessageBus:
                 handler(event)
             except Exception as e:
                 _logger.exception(f"Exception handling event {event}: {e}")
-                continue
 
 
-def create_message_bus():
-    global _bus
-    if _bus is None:
-        _bus = MessageBus(event_handlers=SERVICE_EVENT_HANDLERS)
-    return _bus
+bus = MessageBus(event_handlers=SERVICE_EVENT_HANDLERS)

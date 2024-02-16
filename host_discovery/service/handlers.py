@@ -8,10 +8,11 @@ from host_discovery.service.events import HostDiscovered, Event
 _dns_client = create_dns_client()
 
 
-def handle_discovered_host(event: HostDiscovered):
-
+def store_host(event: HostDiscovered):
     hosts_repo.store_host(event.host)
 
+
+def lookup_dns(event: HostDiscovered):
     dns_record = _dns_client.lookup(event.host.hostname)
 
     if dns_record is not None:
@@ -19,5 +20,5 @@ def handle_discovered_host(event: HostDiscovered):
 
 
 SERVICE_EVENT_HANDLERS: dict[Type[Event], list[Callable]] = {
-    HostDiscovered: [handle_discovered_host],
+    HostDiscovered: [store_host, lookup_dns],
 }
