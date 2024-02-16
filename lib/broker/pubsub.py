@@ -8,7 +8,7 @@ _logger = logging.getLogger(__name__)
 
 class BrokerSubscriber:
     def __init__(self, pubsub: redis.client.PubSub):
-        self._pubsub = pubsub
+        self.pubsub = pubsub
         self._message_handlers: dict[str, Callable] = {}
 
     @classmethod
@@ -16,9 +16,9 @@ class BrokerSubscriber:
         broker = redis.Redis(**config)
         return cls(broker.pubsub())
 
-    def listen(self):
+    def run(self):
 
-        for message in self._pubsub.listen():
+        for message in self.pubsub.listen():
             topic = message["channel"]
             event_handler = self._message_handlers.get(topic)
 
@@ -32,7 +32,7 @@ class BrokerSubscriber:
 
     def subscribe(self, topic: str, message_handler: Callable):
         self._message_handlers[topic] = message_handler
-        self._pubsub.subscribe(topic)
+        self.pubsub.subscribe(topic)
 
 
 class BrokerPublisher:

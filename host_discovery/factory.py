@@ -12,10 +12,10 @@ _dns_client = None
 _broker_publisher = None
 
 
-def get_config() -> dict:
+def get_config(filename: str) -> dict:
     global _config
     if _config is None:
-        with open(CONFIG_FILE, "r") as f:
+        with open(filename, "r") as f:
             _config = yaml.safe_load(f)
             if _config is None:
                 _config = {}
@@ -26,7 +26,7 @@ def get_config() -> dict:
 def create_broker_publisher() -> BrokerPublisher:
     global _broker_publisher
     if _broker_publisher is None:
-        config = get_config()
+        config = get_config(CONFIG_FILE)
 
         _broker_publisher = BrokerPublisher.create(config["BROKER"])
 
@@ -36,7 +36,7 @@ def create_broker_publisher() -> BrokerPublisher:
 def create_dns_client() -> DNSClient:
     global _dns_client
     if _dns_client is None:
-        config = get_config()
+        config = get_config(CONFIG_FILE)
 
         _dns_client = DNSClient.create(config["DNS_SERVER"])
 
