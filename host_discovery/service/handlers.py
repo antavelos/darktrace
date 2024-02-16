@@ -1,15 +1,16 @@
 from typing import Type, Callable
 
-import host_discovery.repos.hosts as hosts_repo
-from host_discovery.factory import create_dns_client
+from host_discovery.repos.hosts import HostRepo
+from host_discovery.factory import get_dns_client
 from host_discovery.pubsub import publisher
 from host_discovery.service.events import HostDiscovered, Event
 
-_dns_client = create_dns_client()
+_dns_client = get_dns_client()
 
 
 def store_host(event: HostDiscovered):
-    hosts_repo.store_host(event.host)
+    host_repo = HostRepo()
+    host_repo.save_host(event.host)
 
 
 def lookup_dns(event: HostDiscovered):

@@ -1,7 +1,7 @@
-from host_discovery.factory import create_broker_publisher
+from host_discovery.factory import get_broker_publisher
 from lib.dns.models import DNSRecord
 
-broker_publisher = create_broker_publisher()
+broker_publisher = get_broker_publisher()
 
 
 def publish_dns_record(dns_record: DNSRecord):

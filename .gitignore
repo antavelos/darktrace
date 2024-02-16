@@ -14,3 +14,5 @@ log/
 samples
 testing*
 .vscode/
+db.json
+test_db.json

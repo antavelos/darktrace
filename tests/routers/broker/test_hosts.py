@@ -1,13 +1,12 @@
-import json
 import logging
 from typing import Callable
 from unittest import mock
 
 import pytest
 from pkg_resources import resource_filename
+from tinydb import Query
 
 from host_discovery.entry.broker_listener import register_subscriptions, create_app as create_broker_listener_app
-from host_discovery.repos import STORE
 from lib.broker.pubsub import BrokerSubscriber
 from lib.dns.dns import DNSClient
 
@@ -74,10 +73,15 @@ def test_add_host__invalid_message_data__error_is_logged(invalid_message, caplog
 
 @mock.patch.object(DNSClient, "lookup")
 @mock.patch("host_discovery.pubsub.publisher.publish_dns_record")
+@mock.patch("host_discovery.factory.get_tinydb")
 def test_add_host__no_errors__event_handlers_are_called_properly(
+        mock_tinydb,
         mock_publish_dns_record,
-        mock_dns_lookup
+        mock_dns_lookup,
+        test_db
 ):
+    mock_tinydb.return_value = test_db
+
     message = {
         "channel": "HostDiscovered",
         "data": {
@@ -92,7 +96,8 @@ def test_add_host__no_errors__event_handlers_are_called_properly(
     app = create_app(message)
     app.run()
 
-    assert len(STORE["hosts"]) == 1
-    assert STORE["hosts"][0] == message["data"]
+    host_query = Query()
+    hosts = test_db.search(host_query.hostname == message["data"]["hostname"])
+    assert len(hosts) == 1
 
     mock_publish_dns_record.assert_called_once_with(mock_dns_record)

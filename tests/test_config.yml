@@ -6,3 +6,5 @@ BROKER:
 DNS_SERVER:
   host: "dns-service"
   scheme: "https"
+
+DB: "test_db.json"
