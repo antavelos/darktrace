@@ -72,7 +72,7 @@ def test_add_host__invalid_message_data__error_is_logged(invalid_message, caplog
 
 
 @mock.patch.object(DNSClient, "lookup")
-@mock.patch("host_discovery.pubsub.publisher.publish_dns_record")
+@mock.patch("host_discovery.service.broker_publisher.publish_dns_record")
 @mock.patch("host_discovery.connectors.get_tinydb")
 def test_add_host__no_errors__event_handlers_are_called_properly(
         mock_tinydb,

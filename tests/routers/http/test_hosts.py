@@ -63,7 +63,7 @@ def test_add_host__invalid_payload__returns_422(
 
 
 @mock.patch.object(DNSClient, "lookup")
-@mock.patch("host_discovery.pubsub.publisher.publish_dns_record")
+@mock.patch("host_discovery.service.broker_publisher.publish_dns_record")
 @mock.patch("host_discovery.connectors.get_tinydb")
 def test_add_host__no_errors__event_handlers_are_called_properly__returns_201(
         mock_tinydb,
